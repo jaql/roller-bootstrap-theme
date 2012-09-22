@@ -1,0 +1,60 @@
+  #set($commentCount = $entry.commentCount)
+  <div class="row-fluid">
+    <div class="span3">
+      <p class="label label-inverse">$entry.category.name</p>
+      <p class="label label-info">$utils.formatDate($entry.pubTime, "hh:mma MMM dd, yyyy")</p>
+      <p class="label label-important">Posted by $entry.creator.screenName</p>
+    </div>
+
+    <div class="span9">
+      <p>
+        #if($model.permalink)
+            $entry.displayContent
+        #else
+          $entry.displayContent($url.entry($entry.anchor))
+        #end
+      </p>
+
+      #if($model.permalink)
+        #if ($utils.isUserAuthorizedToAuthor($entry.website))
+          <p><a href="$url.editEntry($entry.anchor)">$text.get("macro.weblog.entrypermalink.edit")</a></p>
+        #end      
+      #else
+        <p>
+          <a href="$url.entry($entry.anchor)">Read</a>
+          #if ($utils.isUserAuthorizedToAuthor($entry.website))
+            | <a href="$url.editEntry($entry.anchor)">$text.get("macro.weblog.entrypermalink.edit")</a>
+          #end
+
+          #if($entry.commentsStillAllowed || $commentCount > 0)  
+            #set($link = "$url.comments($entry.anchor)" )
+            | <a href="$link">$text.get("macro.weblog.comments") [$commentCount]</a>
+          #end
+        </p>
+      #end
+
+      #showTrackbackAutodiscovery($entry)
+    </div>
+  </div>
+
+  <hr>
+
+  #if($model.permalink)
+    #if($commentCount > 0 || $entry.commentsStillAllowed)  
+      <div class="row-fluid">
+        <div class="span3">
+          <p class="label label-success">Comments</p>
+        </div>
+
+        <div class="span9">
+            #if($commentCount > 0)
+              #includeTemplate($model.weblog "comments")
+            #end
+
+            #if($entry.commentsStillAllowed)
+              #includeTemplate($model.weblog "comment-form")
+            #end
+        </div>
+      </div>
+    #end
+  #end

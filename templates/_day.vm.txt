@@ -1,0 +1,10 @@
+<h1>$utils.formatDate($day, "EEEE MMM dd, yyyy")</h1>
+<hr/>
+
+#foreach( $entry in $entries )
+<a name="$utils.encode($entry.anchor)" id="$utils.encode($entry.anchor)"></a>
+<h2>$entry.title</h2>
+
+#includeTemplate($model.weblog "entry")
+
+#end

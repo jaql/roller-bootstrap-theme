@@ -1,0 +1,40 @@
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <a class="brand" href="/roller">$config.siteShortName</a>
+        <div class="nav-collapse subnav-collapse collapse">
+          <ul class="nav">
+            #set($rootCategory = $model.weblog.getWeblogCategory("nil"))
+            #set($cats = $rootCategory.getWeblogCategories())
+            #foreach($cat in $cats)
+              #if ($model.weblogCategory && $model.weblogCategory.path == $cat.path || ($model.permalink && $model.weblogEntry.category.path == $cat.path))
+                <li class="active"><a href="$url.category($cat.path)">$cat.name</a></li>
+              #else
+                <li><a href="$url.category($cat.path)">$cat.name</a></li>
+              #end
+            #end
+          </ul>
+        </div>
+        <div class="nav-collapse subnav-collapse collapse">
+          <ul class="nav pull-right">
+            #foreach($iPage in $weblog.pages)
+              #if (!$iPage.hidden && $iPage.navbar && $iPage.link != "Weblog")
+                #set($isSelected = false)
+                #if ($model.weblogPage && $iPage.Id == $model.weblogPage.Id) #set($isSelected = true) #end
+                #if (!$isSelected)
+                    <li class="active"><a href="$url.page($iPage.link)"><span>$iPage.name</span></a></li>
+                #else
+                    <li><a href="$url.page($iPage.link)"><span>$iPage.name</span></a></li>
+                #end
+              #end
+            #end
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>

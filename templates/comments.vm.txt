@@ -1,0 +1,42 @@
+    <a name="comments"></a>
+    <div class="comments" id="comments">
+
+    #if($model.commentForm.preview)
+        #set($comments = [$model.commentForm.previewComment])
+    #else
+        #set($comments = $entry.getComments(true, true))
+    #end
+
+    #foreach( $comment in $comments )
+        #if($comment.approved || $model.commentForm.preview)
+            <a name="comment-$comment.timestamp" id="comment-$comment.timestamp"></a>
+
+            #set($alertClass = "info")
+            #if($comment.email == $weblog.creator.emailAddress)
+              #set($alertClass = "success")
+            #end
+            <div class="alert alert-$alertClass" id="comment${velocityCount}">
+                <p>$comment.content</p>
+
+                <p>
+                  $text.get("macro.weblog.postedby")
+                  #if (!$utils.isEmpty($comment.name) && !$utils.isEmpty($comment.url))
+                    -- <a rel="nofollow" href="$comment.url"><b>$comment.name</b></a>
+                  #elseif (!$utils.isEmpty($comment.name))
+                    -- <b>$comment.name</b>
+                  #elseif ($comment.remoteHost)
+                    -- <b>$comment.remoteHost</b>
+                  #else
+                    -- <b>$text.get("macro.weblog.comment.unknown")</b>
+                  #end
+
+                $text.get("macro.weblog.on") $utils.formatDate($comment.postTime, $text.get( "macro.weblog.datepattern" ))
+
+                <a href="$url.comment($entry.anchor, $comment.timestamp)" title="$text.get( "macro.weblog.commentpermalink.title" )"> (link)</a>
+              </p>
+
+            </div>
+
+        #end
+    #end
+    </div>
