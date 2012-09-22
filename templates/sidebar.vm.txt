@@ -4,26 +4,26 @@
     #showWeblogEntryCalendar($model.weblog "nil")
 
     <h2 class="label">Navigation</h2>
-    <ul>
+    <ul class="nav nav-list">
         #if ($utils.isUserAuthorizedToAuthor($weblog))
-            <li class="rNavItem">
+            <li>
                <a href="$url.createEntry"><span>$text.get("navigationBar.newEntry")</span></a>
             </li>
             #if($utils.isUserAuthorizedToAdmin($weblog))
-               <li class="rNavItem">
+               <li>
                    <a href="$url.editSettings"><span>$text.get("navigationBar.settings")</span></a>
                </li>
             #end
-                <li class="rNavItem">
+                <li>
                     <a href="$url.logout"><span>$text.get("navigationBar.logout")</span></a>
                 </li>
         #else
             #if ($utils.isUserAuthenticated())
-                <li class="rNavItem">
+                <li>
                     <a href="$url.logout"><span>$text.get("navigationBar.logout")</span></a>
                 </li>
             #else
-                <li class="rNavItem">
+                <li>
                     <a href="$url.login"><span>$text.get("navigationBar.login")</span></a>
                 </li>
             #end
@@ -31,14 +31,19 @@
     </ul>
 
     <h2 class="label">Feeds</h2>
-    #showAtomFeedsList($model.weblog)
-
-    <h2 class="label">Referrers</h2>
-    #set($refs = $model.weblog.getTodaysReferrers())
-    #showReferrersList($refs 30 20 true)
+    <ul class="nav nav-list">
+      <li><a href="$url.feed.entries.atom">$text.get("macro.rss.all")</a></li>
+      #set($categories = $weblog.weblogCategories )
+      #foreach( $cat in $categories )
+        <li><a href="$url.feed.entries.atom($cat.path, false)">$cat.path</a></l$
+      #end
+      <li><a href="$url.feed.comments.atom">Comments</a></li>
+    </ul>
 
     <h2 class="label">Links</h2>
     #set($rootFolder = $model.weblog.getBookmarkFolder("/"))
-    #showBookmarkLinksList($rootFolder false false) 
+    <ul class="nav nav-list">
+      #_showBookmarkLinksList($rootFolder false false)
+    </ul>
 
 </div>
