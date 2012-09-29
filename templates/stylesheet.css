@@ -1,119 +1,36 @@
-    #set($cform = $model.getCommentForm())
+@media (min-width: 980px) {
+  /* Thanks to Thomas Clayson */
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+}
 
-    <form class="form-horizontal" method="post" action="$url.entry($entry.anchor)" focus="name" 
-        name="commentForm" onsubmit="fixURL(this); return validateComments(this)">    
+.post-info span {
+    margin-bottom: 16px;
+}
 
-    <legend>Post comment</legend>
+table.hCalendarTable {
+    width: 100%;
+    padding: 4px;
+    -moz-box-shadow: inset 1px 1px 1px 1px #ddd;
+   -webkit-box-shadow: inset 1px 1px 1px 1px #ddd;
+   box-shadow: inset 1px 1px 1px 1px #ddd;
+}
 
-    #if( $cform.error )
-        <div class="alert alert-error">$cform.message</div>
-    #elseif( !$cform.error && !$utils.isEmpty($cform.message) )
-        <div class="alert">$cform.message</div>
-    #end
+table.hCalendarTable td {
+    padding: 4px;
+    text-align: center;
+}
 
-        <input type="hidden" name="method" value="post" />
+td.hCalendarDay, td.hCalendarDayNotInMonth, td.hCalendarDayLinked, th.hCalendarDayNameRow {
+    background-color: white;
+}
 
-        <div class="control-group">
-            <label class="control-label" for="comment-name">$text.get( "macro.weblog.name" )</label>
-            <div class="controls">
-              <input type="text" id="comment-name" name="name" value="$cform.name" size="50" maxlength="255" />
-            </div>
-        </div>
+td.hCalendarDayCurrent {
+  background-color: rgb(243, 237, 185);
+}
 
-        <div class="control-group">
-            <label class="control-label" for="comment-email">$text.get( "macro.weblog.email" )</label>
-            <div class="controls">
-              <input type="text" id="comment-email" name="email" class="text large" value="$cform.email" size="50" maxlength="255" />
-            </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label" for="comment-url">$text.get( "macro.weblog.url" )</label>
-            <div class="controls">
-              <input type="text" id="comment-url" name="url" class="text large" value="$cform.url" size="50" maxlength="255" />
-            </div>
-        </div>
-
-        #if ($config.commentEmailNotify)
-            <div class="control-group">
-                <div class="controls">
-                    <label for="comment-notify" class="checkbox">$text.get( "macro.weblog.notifyMeOfComments" )</label>
-                         <input type="checkbox" id="comment-notify" name="notify" #if($cform.notify)CHECKED #end/>
-                    </label>
-                </div>
-            </div>
-        #end
-
-        <div class="control-group">
-            <div class="controls">
-                <div class="control-group">
-                    <label for="comment-remember" class="checkbox">$text.get( "macro.weblog.rememberinfo" )
-                    <input type="checkbox" id="comment-remember" name="rememberInfo" /></label>
-                </div>
-            </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label" for="comment-text">$text.get( "macro.weblog.yourcomment" )</label>
-            <div class="controls">
-                <textarea id="comment-text" name="content" rows="10">$cform.content</textarea>
-            </div>
-        </div>
-
-        <script type="text/javascript" src="$url.site/theme/scripts/clientSideInclude.js"></script>
-        <div class="alert alert-warning" id="commentAuthenticator"></div>
-
-        <input type="button" class="btn" name="post" value="&nbsp;$text.get("macro.weblog.postpreview" )&nbsp;"
-                  onclick="this.form.method.value='preview';this.form.submit()" />
-        <input type="submit" class="btn btn-primary" name="post" value="&nbsp;$text.get( "macro.weblog.post" )&nbsp;" />
-
-    </form>
-
-    <script type="text/javascript" src="$url.site/theme/scripts/roller.js"></script>
-    <script type="text/javascript">
-    /* <![CDATA[ */
-    clientSideInclude('commentAuthenticator', '$url.commentAuthenticator');
-
-    var author = getCookie("commentAuthor");
-    var email = getCookie("commentEmail");
-    var url = getCookie("commentUrl");
-    // check each field - IE will render "null"
-    if (author) {
-        document.forms['commentForm'].name.value = author;
-    }
-    if (email) {
-        document.forms['commentForm'].email.value = email;
-    }
-    if (url) {
-        document.forms['commentForm'].url.value = url;
-    }
-
-    if (author || email || url) {
-        document.forms['commentForm'].rememberInfo.checked = true;
-    }
-
-    function fixURL(theForm) {
-        if (theForm.url.value != "" &&
-            theForm.url.value.indexOf("http://") == -1) { //prepend http://
-            theForm.url.value = "http://"+theForm.url.value;
-        }
-        saveUserInformation(theForm);
-    }
-
-    function saveUserInformation(theForm) {
-        if (theForm.rememberInfo.checked) {
-            rememberUser(theForm);
-        } else {
-            forgetUser(theForm);
-        }
-    }
-
-    function validateComments(theForm) {
-        if (theForm.content.value == "") {
-            alert("$text.get( "macro.weblog.commentwarning" )");
-            theForm.content.focus();
-            return false;
-        }
-    }
-    /* ]]> */
-    </script>
+td.hCalendarMonthYearRow, tr.hCalendarNextPrev {
+  background-color: #fafafa;
+}
