@@ -1,8 +1,12 @@
   #set($commentCount = $entry.commentCount)
   <div class="row-fluid">
     <div class="span3">
-      <p class="label label-inverse">$entry.category.name</p>
-      <p class="label label-info">$utils.formatDate($entry.pubTime, "hh:mma MMM dd, yyyy")</p>
+      <p class="label label-success">$entry.category.name</p>
+      #if($model.permalink)
+        <p class="label label-info">$utils.formatDate($entry.pubTime, "hh:mma MMM dd, yyyy")</p>
+      #else
+        <p class="label label-info">$utils.formatDate($entry.pubTime, "hh:mma")</p>
+      #end
       <p class="label label-important">Posted by $entry.creator.screenName</p>
     </div>
 
@@ -43,7 +47,7 @@
     #if($commentCount > 0 || $entry.commentsStillAllowed)  
       <div class="row-fluid">
         <div class="span3">
-          <p class="label label-success">Comments</p>
+          <p class="label label-warning">Comments</p>
         </div>
 
         <div class="span9">

@@ -1,5 +1,4 @@
-<h1>$utils.formatDate($day, "EEEE MMM dd, yyyy")</h1>
-<hr/>
+<h1 class="label label-inverse">$utils.formatDate($day, "EEEE MMM dd, yyyy")</h1>
 
 #foreach( $entry in $entries )
 <a name="$utils.encode($entry.anchor)" id="$utils.encode($entry.anchor)"></a>
